@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InternNotify - One Click Internship Notification</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="script.js" defer></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header>
+        <div class="header-content">
+            <div class="logo">InternNotify</div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="interview-tips.html">Interview Tips</a></li>
+                    <li><a href="https://www.geeksforgeeks.org/experienced-interview-experiences-company-wise/?ref=ml_lbp">Interview Experience</a></li>
+                    <li><a href="courses.html">Courses</a></li>
+                    <li><a href="resume-template.html">Resume</a></li>
+                    <li><a href="ats score.html" target="_blank">ATS Score Checker</a></li>
+                    <li><a href="login.html">Login/Signup</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <style> /* General styles */
+        /* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #E1F4F3;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+        
+        
+        
+        /* ATS Resume Checker Section */
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 28px;
+            color: black;
+        }
+        
+        p {
+            text-align: center;
+            font-size: 16px;
+            color: #333;
+        }
+        
+        /* Drop area for file upload */
+        #drop-area {
+            width: 80%;
+            margin: 20px auto;
+            padding: 20px;
+            border: 2px dashed black;
+            background-color: #f0f4ff;
+            text-align: center;
+            transition: background-color 0.3s;
+            cursor: pointer;
+        }
+        
+        #drop-area p {
+            font-size: 16px;
+            color: #333;
+        }
+        
+        #drop-area.active {
+            background-color: #e0ebff;
+        }
+        
+        #resume-upload {
+            display: none;
+        }
+        
+        button#upload-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin-top: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        
+        button#upload-btn:hover {
+            background-color: #0056b3;
+        }
+        
+        /* Job description textarea */
+        #job-description {
+            width: 80%;
+            height: 120px;
+            margin: 20px auto;
+            display: block;
+            padding: 10px;
+            border: 1px solid black;
+            border-radius: 5px;
+            font-size: 14px;
+            font-family: 'Roboto', sans-serif;
+        }
+        
+        /* ATS Score Button */
+        button#calculate-btn {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            display: block;
+            margin: 20px auto;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        button#calculate-btn:hover {
+            background-color: #218838;
+        }
+        
+        /* File info display */
+        #file-info {
+            text-align: center;
+            font-size: 14px;
+            color: #555;
+        }
+        
+        /* Tips section */
+        .tips {
+            margin: 20px auto;
+            padding: 20px;
+            width: 80%;
+            background-color: #f8f9fa;
+            border: 1px solid black;
+            border-radius: 5px;
+        }
+        
+        .tips h2 {
+            font-size: 20px;
+            color: black;
+        }
+        
+        .tips ul {
+            list-style-type: disc;
+            margin-left: 20px;
+        }
+        
+        .tips ul li {
+            margin: 5px 0;
+            color: #333;
+        }
+        
+        /* ATS Score display */
+        .ats-score {
+            text-align: center;
+            font-size: 18px;
+            color: #007bff;
+            margin-top: 20px;
+        }
+        
+        </style>
+    
+    <h1>ATS Resume Checker</h1>
+    <p>A free and fast AI resume checker doing 16 crucial checks to ensure your resume is ready to perform.</p>
+    
+    <div class="drop-area" id="drop-area">
+        <p>Drop your resume here or click to upload.</p>
+        <input type="file" id="resume-upload" accept=".pdf,.docx"/>
+        <button id="upload-btn">Upload Your Resume</button>
+    </div>
+    
+    <textarea id="job-description" placeholder="Enter the job description here..."></textarea>
+    
+    <p id="file-info" style="margin-top: 10px;"></p>
+    
+    <button id="calculate-btn" class="hidden">Get ATS Score</button>
+
+    <div class="tips hidden" id="tips">
+        <h2>Tips to Improve Your Resume</h2>
+        <ul>
+            <li>Use clear and concise language to communicate your skills and experience effectively.</li>
+            <li>Tailor your resume to the job description by using relevant keywords and phrases that match the job posting.</li>
+            <li>Highlight your achievements with quantifiable metrics, such as percentages or numbers, to demonstrate your impact.</li>
+            <li>Keep the layout clean and professional, using consistent formatting for headings, bullet points, and fonts.</li>
+            <li>Ensure your contact information is easily accessible and up-to-date.</li>
+            <li>Use action verbs to describe your responsibilities and achievements, making your contributions stand out.</li>
+            <li>Limit your resume to one page if you're a recent graduate or have less than 10 years of experience.</li>
+            <li>Include relevant certifications and training that align with the job you're applying for.</li>
+            <li>Proofread your resume for spelling and grammar errors to present a polished image to employers.</li>
+            <li>Consider using a professional email address that includes your name rather than a nickname.</li>
+        </ul>
+        <p id="ats-score" class="ats-score hidden"></p> <!-- Updated class for ATS score -->
+    </div>
+
+    <script>
+        const dropArea = document.getElementById('drop-area');
+        const fileInput = document.getElementById('resume-upload');
+        const fileInfo = document.getElementById('file-info');
+        const tips = document.getElementById('tips');
+        const calculateBtn = document.getElementById('calculate-btn');
+        const atsScoreDisplay = document.getElementById('ats-score');
+        const jobDescription = document.getElementById('job-description');
+
+        dropArea.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        fileInput.addEventListener('change', handleFileUpload);
+
+        dropArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropArea.classList.add('active');
+        });
+
+        dropArea.addEventListener('dragleave', () => {
+            dropArea.classList.remove('active');
+        });
+
+        dropArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropArea.classList.remove('active');
+            if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+                handleFileUpload({ target: { files: e.dataTransfer.files } });
+            }
+        });
+
+        document.getElementById('upload-btn').addEventListener('click', () => {
+            if (fileInput.files.length > 0) {
+                handleFileUpload({ target: { files: fileInput.files } });
+            } else {
+                alert('Please upload a resume file.');
+            }
+        });
+
+        calculateBtn.addEventListener('click', () => {
+            const atsScore = Math.floor(Math.random() * 101); // Mock ATS score between 0 and 100
+            atsScoreDisplay.textContent = `ATS Score: ${atsScore}/100`;
+            atsScoreDisplay.classList.remove('hidden');
+            tips.classList.remove('hidden'); // Show tips when ATS score is displayed
+        });
+
+        function handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                fileInfo.textContent = `Selected file: ${file.name}`;
+                calculateBtn.classList.remove('hidden');
+            }
+        }
+    </script>
+<!-- Footer Section -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <h2 class="h5">Company</h2>
+                <ul class="list-unstyled">
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Our Services</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms & Condition</a></li>
+                </ul>
+            </div>
+            
+            <div class="col-md-3">
+                <h2 class="h5">Quick Links</h2>
+                <ul class="list-unstyled">
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Our Services</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms & Condition</a></li>
+                </ul>
+            </div>
+            
+            <div class="col-md-3">
+                <h2 class="h5">Contact</h2>
+                <h8>123 Street, New York, USA</h8>
+                <h8>+012 345 67890</h8>
+                <h8>info@example.com</h8>
+                <div class="social-icons">
+                    <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
+        <a href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin"></i></a>
+        <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="http://youtube.com" target="_blank"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            
+            <div class="col-md-3">
+                <h2 class="h5">Newsletter</h2>
+                <h8>Dolor amet sit justo amet elitr clita ipsum elitr est.</h8>
+                <form class="form-inline">
+                    <input type="email" class="form-control mb-2 mr-sm-2" placeholder="Your email" required>
+                    <button type="submit" class="btn btn-success mb-2">SignUp</button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="mt-4 pt-4 border-top border-light">
+            <div class="d-flex justify-content-between align-items-center">
+                <h8>&copy; <a href="#">Your Site Name</a>, All Rights Reserved. Designed By <a href="https://htmlcodex.com">HTML Codex</a></h8>
+                <div class="mt-2">
+                    <a href="#" class="mr-4">Home</a>
+                    <a href="#" class="mr-4">Cookies</a>
+                    <a href="#" class="mr-4">Help</a>
+                    <a href="#">FAQs</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

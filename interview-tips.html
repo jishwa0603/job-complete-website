@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InternNotify - One Click Internship Notification</title>
+    <link rel="stylesheet" href="interview-tips.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="script.js" defer></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header>
+        <div class="header-content">
+            <div class="logo">InternNotify</div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="interview-tips.html">Interview Tips</a></li>
+                    <li><a href="https://www.geeksforgeeks.org/experienced-interview-experiences-company-wise/?ref=ml_lbp">Interview Experience</a></li>
+                    <li><a href="courses.html">Courses</a></li>
+                    <li><a href="resume-template.html">Resume</a></li>
+                    <li><a href="ats score.html" target="_blank">ATS Score Checker</a></li>
+                    <li><a href="login.html">Login/Signup</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Interview Tips Section -->
+    <section class="latest-articles">
+        <h2>Interview Tips</h2>
+        <div class="tips-container" id="tips-container">
+            <!-- Tip cards will be dynamically loaded here -->
+        </div>
+    </section>
+
+    <!-- JavaScript to dynamically load the tips and handle clicks -->
+    <script>
+        // Array of interview tips (updated with 12 tips)
+        const tips = [
+            { title: 'Prepare for Common Interview Questions', 
+              imageUrl: 'https://via.placeholder.com/300x150.png?text=Tip+1', 
+              pageUrl: 'tip1.html' },
+            { title: 'Research the Company', 
+              imageUrl: 'https://via.placeholder.com/300x150.png?text=Tip+2',
+              pageUrl: 'tip2.html' },
+            { title: 'Dress Professionally', 
+              imageUrl: 'https://via.placeholder.com/300x150.png?text=Tip+3',
+              pageUrl: 'tip3.html' },
+            { title: 'Practice Behavioral Questions', 
+              imageUrl: 'https://via.placeholder.com/300x150.png?text=Tip+4', 
+              pageUrl: 'tip4.html' },
+            { title: 'Follow Up After the Interview', 
+              imageUrl: 'https://via.placeholder.com/300x150.png?text=Tip+5', 
+              pageUrl: 'tip5.html' },
+            { title: 'Ask Questions', 
+              imageUrl: 'https://via.placeholder.com/300x150.png?text=Tip+6', 
+              pageUrl: 'tip6.html' },
+            { title: 'Be Mindful of Body Language', 
+              imageUrl: 'https://via.placeholder.com/300x150.png?text=Tip+7', 
+              pageUrl: 'tip7.html' },
+            { title: 'Prepare Your Documents', 
+              imageUrl: 'https://via.placeholder.com/300x150.png?text=Tip+8', 
+              pageUrl: 'tip8.html' },
+            { title: 'Be Yourself', 
+              imageUrl: 'https://via.placeholder.com/300x150.png?text=Tip+9', 
+              pageUrl: 'tip9.html' },
+            { title: 'Practice Makes Perfect', 
+              imageUrl: 'https://via.placeholder.com/300x150.png?text=Tip+10', 
+              pageUrl: 'tip10.html' },
+            { title: 'Stay Calm and Positive', 
+              imageUrl: 'https://via.placeholder.com/300x150.png?text=Tip+11', 
+              pageUrl: 'tip11.html' },
+            { title: 'Be Punctual', 
+              imageUrl: 'https://via.placeholder.com/300x150.png?text=Tip+12', 
+              pageUrl: 'tip12.html' }
+        ];
+
+        // Function to load the tips dynamically
+        function loadTips() {
+            const tipsContainer = document.getElementById('tips-container');
+            tips.forEach(tip => {
+                const tipCard = document.createElement('div');
+                tipCard.className = 'tip-card';
+                tipCard.innerHTML = `
+                    <img src="${tip.imageUrl}" alt="${tip.title}">
+                    <h3><a href="${tip.pageUrl}">${tip.title}</a></h3>
+                `;
+                tipsContainer.appendChild(tipCard);
+            });
+        }
+
+        // Load tips on page load
+        window.onload = loadTips;
+    </script>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="#">About</a>
+            <a href="#">Terms & Condition</a>
+            <a href="#">Privacy</a>
+            <a href="#">Contact</a>
+            <a href="#">Our Service</a>
+        </div>
+        
+        <!-- Add Social Media Icons -->
+        <div class="social-media">
+            <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
+            <a href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin"></i></a>
+            <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+        </div>
+
+        <p>&copy; 2024 InternNotify</p>
+    </footer>
+</body>
+</html>

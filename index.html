@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InternNotify - One Click Internship Notification</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="script.js" defer></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header>
+        <div class="header-content">
+            <div class="logo">InternNotify</div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="interview-tips.html">Interview Tips</a></li>
+                    <li><a href="https://www.geeksforgeeks.org/experienced-interview-experiences-company-wise/?ref=ml_lbp">Interview Experience</a></li>
+                    <li><a href="courses.html">Courses</a></li>
+                    <li><a href="resume-template.html">Resume</a></li>
+                    <li><a href="ats score.html" target="_blank">ATS Score Checker</a></li>
+                    <li><a href="login2.html">Login/Signup</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content Section with Background Image -->
+    <section class="main-section">
+        <img src="image.png" alt="Background Image" class="background-image">
+        <div class="filter-section">
+            <div class="background-text">
+                <h1>Find Your Dream Internship or Job</h1>
+            </div>
+
+            <div class="container" id="search-container">
+                <h1>Job Search</h1>
+
+                <form id="internship-form">
+                    <div class="search-container">
+                        <input type="text" placeholder="Keyword" id="keyword" required>
+                        <select id="category">
+                            <option value="" disabled selected>Category</option>
+                            <option value="web-development">Web Development</option>
+                            <option value="data-science">Data Science</option>
+                            <option value="marketing">Marketing</option>
+                            <option value="design">Design</option>
+                        </select>   
+                        <select id="location">
+                            <option value="" disabled selected>Location</option>
+                            <option value="remote">Remote</option>
+                            <option value="onsite">Onsite</option>
+                        </select>
+                        <button type="submit" class="search-button">Search</button>
+                    </div>
+                </form>
+            
+                <div class="spinner" id="loading-spinner" style="display: none;"></div>
+            </div>
+
+            <!-- Job Listings -->
+            <div id="job-listings" style="display: none;"></div>
+
+            <!-- Script for Job Search -->
+            <script>
+                document.getElementById('internship-form').addEventListener('submit', function(event) {
+                    event.preventDefault(); // Prevent form from submitting normally
+            
+                    const keyword = document.getElementById('keyword').value;
+                    const category = document.getElementById('category').value;
+                    const location = document.getElementById('location').value;
+            
+                    document.getElementById('job-listings').innerHTML = ''; // Clear previous listings
+                    document.getElementById('loading-spinner').style.display = 'block'; // Show loading spinner
+            
+                    fetchJobListings(keyword, category, location);
+                });
+            
+                async function fetchJobListings(keyword, category, location) {
+                    const options = {
+                        method: 'GET',
+                        url: 'https://jsearch.p.rapidapi.com/estimated-salary',
+                        params: {
+                            job_title: keyword,
+                            location: location,
+                            radius: '100',
+                            limit: '10' // Increased job listing limit to 10
+                        },
+                        headers: {
+                            'x-rapidapi-key': 'f4a0d3972amsh7c94b38ca079777p17ccdfjsnac719eb7e688', // Your API key
+                            'x-rapidapi-host': 'jsearch.p.rapidapi.com'
+                        }
+                    };
+            
+                    try {
+                        const response = await axios.request(options);
+                        displayJobListings(response.data.data);
+                    } catch (error) {
+                        console.error(error);
+                        document.getElementById('job-listings').innerHTML = '<p>Error fetching job listings. Please try again.</p>';
+                    } finally {
+                        document.getElementById('loading-spinner').style.display = 'none'; // Hide loading spinner
+                    }
+                }
+            
+                function displayJobListings(jobs) {
+                    const jobListDiv = document.getElementById('job-listings');
+                    jobListDiv.style.display = 'block'; // Show job listings
+            
+                    if (jobs.length === 0) {
+                        jobListDiv.innerHTML = '<p>No job listings found.</p>';
+                        return;
+                    }
+            
+                    jobs.forEach(job => {
+                        const jobItem = document.createElement('div');
+                        jobItem.className = 'job-item';
+                        jobItem.innerHTML = `
+                            <h3>${job.job_title}</h3>
+                            <p><strong>Location:</strong> ${job.location}</p>
+                            <p><strong>Publisher:</strong> <a href="${job.publisher_link}" target="_blank">${job.publisher_name}</a></p>
+                            <p><strong>Salary:</strong> $${job.median_salary} ${job.salary_currency} (${job.salary_period})</p>
+                        `;
+                        jobListDiv.appendChild(jobItem);
+                    });
+                }
+            </script>
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <h2 class="h5">Company</h2>
+                    <ul class="list-unstyled">
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Our Services</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms & Condition</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-md-3">
+                    <h2 class="h5">Quick Links</h2>
+                    <ul class="list-unstyled">
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Our Services</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms & Condition</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-md-3">
+                    <h2 class="h5">Contact</h2>
+                    <p>123 Street, New York, USA</p>
+                    <p>+012 345 67890</p>
+                    <p>info@example.com</p>
+                    <div class="social-icons">
+                        <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
+            <a href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin"></i></a>
+            <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="http://youtube.com" target="_blank"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="col-md-3">
+                    <h2 class="h5">Newsletter</h2>
+                    <p>Dolor amet sit justo amet elitr clita ipsum elitr est.</p>
+                    <form class="form-inline">
+                        <input type="email" class="form-control mb-2 mr-sm-2" placeholder="Your email" required>
+                        <button type="submit" class="btn btn-success mb-2">SignUp</button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="mt-4 pt-4 border-top border-light">
+                <div class="d-flex justify-content-between align-items-center">
+                    <p>&copy; <a href="#">Your Site Name</a>, All Rights Reserved. Designed By <a href="https://htmlcodex.com">HTML Codex</a></p>
+                    <div class="mt-2">
+                        <a href="#" class="mr-4">Home</a>
+                        <a href="#" class="mr-4">Cookies</a>
+                        <a href="#" class="mr-4">Help</a>
+                        <a href="#">FAQs</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
